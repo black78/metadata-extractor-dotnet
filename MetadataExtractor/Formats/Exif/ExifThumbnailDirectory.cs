@@ -26,6 +26,11 @@ using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Exif
 {
     /// <summary>One of several Exif directories.</summary>
@@ -67,6 +72,20 @@ namespace MetadataExtractor.Formats.Exif
         [CanBeNull]
         public byte[] ThumbnailData { get; set; }
 
+#if WINRT
+        /// <exception cref="MetadataException"/>
+        /// <exception cref="System.IO.IOException"/>
+        public async Task WriteThumbnailAsync([NotNull] StorageFile file)
+        {
+            if (ThumbnailData == null)
+                throw new MetadataException("No thumbnail data exists.");
+
+            using (var stream = await file.OpenStreamForWriteAsync().ConfigureAwait(false))
+            {
+                await stream.WriteAsync(ThumbnailData, 0, ThumbnailData.Length);
+            }
+        }
+#else
         /// <exception cref="MetadataException"/>
         /// <exception cref="System.IO.IOException"/>
         public void WriteThumbnail([NotNull] string filename)
@@ -76,5 +95,6 @@ namespace MetadataExtractor.Formats.Exif
 
             File.WriteAllBytes(filename, ThumbnailData);
         }
+#endif
     }
 }

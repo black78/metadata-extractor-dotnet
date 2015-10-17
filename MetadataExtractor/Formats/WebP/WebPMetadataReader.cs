@@ -29,12 +29,33 @@ using MetadataExtractor.Formats.FileSystem;
 using MetadataExtractor.Formats.Riff;
 using MetadataExtractor.IO;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.WebP
 {
     /// <summary>Obtains metadata from WebP files.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
     public static class WebPMetadataReader
     {
+#if WINRT
+        /// <exception cref="System.IO.IOException"/>
+        /// <exception cref="RiffProcessingException"/>
+        [NotNull]
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file)
+        {
+            var directories = new List<Directory>();
+
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                directories.AddRange(ReadMetadata(stream));
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file).ConfigureAwait(false));
+
+            return directories;
+        }
+#else
         /// <exception cref="System.IO.IOException"/>
         /// <exception cref="RiffProcessingException"/>
         [NotNull]
@@ -55,6 +76,7 @@ namespace MetadataExtractor.Formats.WebP
 
             return directories;
         }
+#endif
 
         /// <exception cref="System.IO.IOException"/>
         /// <exception cref="RiffProcessingException"/>

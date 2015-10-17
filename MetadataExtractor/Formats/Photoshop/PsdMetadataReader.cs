@@ -28,12 +28,32 @@ using JetBrains.Annotations;
 using MetadataExtractor.Formats.FileSystem;
 using MetadataExtractor.IO;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Photoshop
 {
     /// <summary>Obtains metadata from Photoshop's PSD files.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
     public static class PsdMetadataReader
     {
+#if WINRT
+        /// <exception cref="System.IO.IOException"/>
+        [NotNull]
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file)
+        {
+            var directories = new List<Directory>();
+
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                directories.AddRange(new PsdReader().Extract(new SequentialStreamReader(stream)));
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file).ConfigureAwait(false));
+
+            return directories;
+        }
+#else
         /// <exception cref="System.IO.IOException"/>
         [NotNull]
         public static
@@ -53,6 +73,7 @@ namespace MetadataExtractor.Formats.Photoshop
 
             return directories;
         }
+#endif
 
         [NotNull]
         public static

@@ -706,21 +706,29 @@ namespace MetadataExtractor
         [CanBeNull]
         private static IConvertible GetConvertibleObject([NotNull] this Directory directory, int tagType)
         {
-            var o = directory.GetObject(tagType);
+            return GetConvertibleObject(directory.GetObject(tagType));
+        }
 
-            if (o == null)
+        [CanBeNull]
+        private static IConvertible GetConvertibleObject(this object value)
+        {
+            if (value == null)
                 return null;
 
-            var convertible = o as IConvertible;
+            var convertible = value as IConvertible;
 
             if (convertible != null)
                 return convertible;
 
-            var array = o as Array;
+            var array = value as Array;
             if (array != null && array.Length == 1 && array.Rank == 1)
-                return array.GetValue(0) as IConvertible;
+                return GetConvertibleObject(array.GetValue(0));
 
+#if WINRT
+            return new Convertable.DefaultConvertible(value);
+#else
             return null;
+#endif
         }
 
         private static T ThrowValueNotPossible<T>(Directory directory, int tagType)

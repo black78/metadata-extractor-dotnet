@@ -23,14 +23,18 @@
 #endregion
 
 using System;
+#if !WINRT
 using System.Runtime.Serialization;
+#endif
 using JetBrains.Annotations;
 
 namespace MetadataExtractor
 {
     /// <summary>Base class for all metadata specific exceptions.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
+#if !WINRT
     [Serializable]
+#endif
     public class MetadataException : Exception
     {
         public MetadataException([CanBeNull] string msg)
@@ -48,9 +52,11 @@ namespace MetadataExtractor
         {
         }
 
+#if !WINRT
         protected MetadataException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }

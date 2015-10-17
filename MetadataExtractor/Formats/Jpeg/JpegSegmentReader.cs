@@ -28,6 +28,11 @@ using System.IO;
 using JetBrains.Annotations;
 using MetadataExtractor.IO;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Jpeg
 {
     /// <summary>Performs read functions of JPEG files, returning specific file segments.</summary>
@@ -39,6 +44,24 @@ namespace MetadataExtractor.Formats.Jpeg
     /// <author>Drew Noakes https://drewnoakes.com</author>
     public static class JpegSegmentReader
     {
+#if WINRT
+        /// <summary>
+        /// Processes the provided JPEG data, and extracts the specified JPEG segments into a <see cref="JpegSegmentData"/> object.
+        /// </summary>
+        /// <remarks>
+        /// Will not return SOS (start of scan) or EOI (end of image) segments.
+        /// </remarks>
+        /// <param name="filePath">a file from which the JPEG data will be read.</param>
+        /// <param name="segmentTypes">the set of JPEG segments types that are to be returned. If this argument is <c>null</c> then all found segment types are returned.</param>
+        /// <exception cref="JpegProcessingException"/>
+        /// <exception cref="System.IO.IOException"/>
+        [NotNull]
+        public static async Task<JpegSegmentData> ReadSegmentsAsync([NotNull] StorageFile file, [CanBeNull] ICollection<JpegSegmentType> segmentTypes)
+        {
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                return ReadSegments(new SequentialStreamReader(stream), segmentTypes);
+        }
+#else
         /// <summary>
         /// Processes the provided JPEG data, and extracts the specified JPEG segments into a <see cref="JpegSegmentData"/> object.
         /// </summary>
@@ -55,6 +78,7 @@ namespace MetadataExtractor.Formats.Jpeg
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 return ReadSegments(new SequentialStreamReader(stream), segmentTypes);
         }
+#endif
 
         /// <summary>
         /// Processes the provided JPEG data, and extracts the specified JPEG segments into a <see cref="JpegSegmentData"/> object.

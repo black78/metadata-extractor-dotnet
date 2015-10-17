@@ -23,14 +23,18 @@
 #endregion
 
 using System;
+#if !WINRT
 using System.Runtime.Serialization;
+#endif
 using JetBrains.Annotations;
 
 namespace MetadataExtractor.Formats.Riff
 {
     /// <summary>An exception class thrown upon unexpected and fatal conditions while processing a RIFF file.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
+#if !WINRT
     [Serializable]
+#endif
     public class RiffProcessingException : ImageProcessingException
     {
         public RiffProcessingException([CanBeNull] string message)
@@ -48,9 +52,11 @@ namespace MetadataExtractor.Formats.Riff
         {
         }
 
+#if !WINRT
         protected RiffProcessingException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }

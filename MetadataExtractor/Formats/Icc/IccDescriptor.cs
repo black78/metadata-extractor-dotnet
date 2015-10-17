@@ -89,7 +89,12 @@ namespace MetadataExtractor.Formats.Icc
                     {
                         try
                         {
-                            return Encoding.ASCII.GetString(bytes, 8, bytes.Length - 8 - 1);
+#if WINRT
+                            Encoding encodingASCII = Encoding.UTF8;
+#else
+                            Encoding encodingASCII = Encoding.ASCII;
+#endif
+                            return encodingASCII.GetString(bytes, 8, bytes.Length - 8 - 1);
                         }
                         catch
                         {

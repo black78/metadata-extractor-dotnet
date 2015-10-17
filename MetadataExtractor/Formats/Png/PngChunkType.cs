@@ -134,8 +134,13 @@ namespace MetadataExtractor.Formats.Png
 
         public PngChunkType([NotNull] string identifier, bool multipleAllowed = false)
         {
+#if WINRT
+            Encoding encodingASCII = Encoding.UTF8;
+#else
+            Encoding encodingASCII = Encoding.ASCII;
+#endif
             AreMultipleAllowed = multipleAllowed;
-            var bytes = Encoding.ASCII.GetBytes(identifier);
+            var bytes = encodingASCII.GetBytes(identifier);
             ValidateBytes(bytes);
             _bytes = bytes;
         }
@@ -176,7 +181,12 @@ namespace MetadataExtractor.Formats.Png
         private static bool IsValidByte(byte b) => (b >= 65 && b <= 90) || (b >= 97 && b <= 122);
 
         [NotNull]
-        public string Identifier => Encoding.ASCII.GetString(_bytes);
+        public string Identifier =>
+#if WINRT
+            Encoding.UTF8.GetString(_bytes);
+#else
+            Encoding.ASCII.GetString(_bytes);
+#endif
 
         public override string ToString() => Identifier;
 

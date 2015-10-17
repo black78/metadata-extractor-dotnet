@@ -152,9 +152,11 @@ namespace MetadataExtractor.Formats.Photoshop
                         case PhotoshopDirectory.TagExifData3:
                             directories.AddRange(new ExifReader().Extract(new ByteArrayReader(tagBytes)));
                             break;
+#if !WINRT
                         case PhotoshopDirectory.TagXmpData:
                             directories.Add(new XmpReader().Extract(tagBytes));
                             break;
+#endif
                         default:
                             directory.Set(tagType, tagBytes);
                             break;

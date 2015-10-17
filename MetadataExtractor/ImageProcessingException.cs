@@ -23,14 +23,18 @@
 #endregion
 
 using System;
+#if !WINRT
 using System.Runtime.Serialization;
+#endif
 using JetBrains.Annotations;
 
 namespace MetadataExtractor
 {
     /// <summary>An exception class thrown upon an unexpected condition that was fatal for the processing of an image.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
+#if !WINRT
     [Serializable]
+#endif
     public class ImageProcessingException : Exception
     {
         public ImageProcessingException([CanBeNull] string message)
@@ -48,9 +52,11 @@ namespace MetadataExtractor
         {
         }
 
+#if !WINRT
         protected ImageProcessingException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }

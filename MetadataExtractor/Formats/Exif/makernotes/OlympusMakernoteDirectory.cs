@@ -434,6 +434,10 @@ namespace MetadataExtractor.Formats.Exif.Makernotes
             var reader = new SequentialByteArrayReader(bytes) { IsMotorolaByteOrder = true };
             var count = bytes.Length / 4;
 
+#if WINRT
+            for (var i = 0; i < count; i++)
+                Set(CameraSettings.Offset + i, reader.GetInt32());
+#else
             try
             {
                 for (var i = 0; i < count; i++)
@@ -444,6 +448,7 @@ namespace MetadataExtractor.Formats.Exif.Makernotes
                 // Should never happen, given that we check the length of the bytes beforehand.
                 Console.WriteLine (e);
             }
+#endif
         }
 
         public bool IsIntervalMode()

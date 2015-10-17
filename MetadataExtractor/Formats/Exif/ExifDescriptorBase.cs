@@ -593,7 +593,12 @@ namespace MetadataExtractor.Formats.Exif
                 return string.Empty;
 
             IDictionary<string, Encoding> encodingMap = new Dictionary<string, Encoding>();
-            encodingMap["ASCII"] = Encoding.ASCII;
+#if WINRT
+            Encoding encodingASCII = Encoding.UTF8;
+#else
+            Encoding encodingASCII = Encoding.ASCII;
+#endif
+            encodingMap["ASCII"] = encodingASCII;
             // Someone suggested "ISO-8859-1".
             encodingMap["UNICODE"] = Encoding.Unicode;
             encodingMap["JIS"] = Encoding.GetEncoding("Shift-JIS");

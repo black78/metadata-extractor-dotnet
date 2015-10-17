@@ -28,6 +28,11 @@ using JetBrains.Annotations;
 using MetadataExtractor.Formats.FileSystem;
 using MetadataExtractor.IO;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Bmp
 {
     /// <summary>Obtains metadata from BMP files.</summary>
@@ -35,8 +40,22 @@ namespace MetadataExtractor.Formats.Bmp
     public static class BmpMetadataReader
     {
         /// <exception cref="System.IO.IOException"/>
+#if WINRT
         [NotNull]
-        public static
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file)
+        {
+            var directories = new List<Directory>(2);
+
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                directories.Add(ReadMetadata(stream));
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file));
+
+            return directories;
+        }
+#else
+        [NotNull]
+            public static
 #if NET35
             IList<Directory>
 #else
@@ -53,7 +72,7 @@ namespace MetadataExtractor.Formats.Bmp
 
             return directories;
         }
-
+#endif
         [NotNull]
         public static BmpHeaderDirectory ReadMetadata([NotNull] Stream stream)
         {

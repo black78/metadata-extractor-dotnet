@@ -34,6 +34,11 @@ using MetadataExtractor.Formats.Xmp;
 using MetadataExtractor.IO;
 using MetadataExtractor.Util;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Png
 {
     /// <author>Drew Noakes https://drewnoakes.com</author>
@@ -56,6 +61,22 @@ namespace MetadataExtractor.Formats.Png
             PngChunkType.sBIT
         };
 
+#if WINRT
+        /// <exception cref="PngProcessingException"/>
+        /// <exception cref="System.IO.IOException"/>
+        [NotNull]
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file)
+        {
+            var directories = new List<Directory>();
+
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                directories.AddRange(ReadMetadata(stream));
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file).ConfigureAwait(false));
+
+            return directories;
+        }
+#else
         /// <exception cref="PngProcessingException"/>
         /// <exception cref="System.IO.IOException"/>
         [NotNull]
@@ -76,6 +97,7 @@ namespace MetadataExtractor.Formats.Png
 
             return directories;
         }
+#endif
 
         /// <exception cref="PngProcessingException"/>
         /// <exception cref="System.IO.IOException"/>
@@ -94,6 +116,9 @@ namespace MetadataExtractor.Formats.Png
 
             foreach (var chunk in chunks)
             {
+#if WINRT
+                directories.AddRange(ProcessChunk(chunk));
+#else
                 try
                 {
                     directories.AddRange(ProcessChunk(chunk));
@@ -102,6 +127,7 @@ namespace MetadataExtractor.Formats.Png
                 {
                     Console.Error.WriteLine(e);
                 }
+#endif
             }
 
             return directories;
@@ -245,8 +271,12 @@ namespace MetadataExtractor.Formats.Png
                 {
                     if (keyword == "XML:com.adobe.xmp")
                     {
+#if WINRT
+                        throw new NotSupportedException("The xmp not supported.");
+#else
                         // NOTE in testing images, the XMP has parsed successfully, but we are not extracting tags from it as necessary
                         yield return new XmpReader().Extract(text);
+#endif
                     }
                     else
                     {

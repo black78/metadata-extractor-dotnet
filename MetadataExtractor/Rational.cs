@@ -37,8 +37,10 @@ namespace MetadataExtractor
     /// Note that any <see cref="Rational"/> with a numerator of zero will be treated as zero, even if the denominator is also zero.
     /// </remarks>
     /// <author>Drew Noakes https://drewnoakes.com</author>
+#if !WINRT
     [Serializable]
     [TypeConverter(typeof(RationalConverter))]
+#endif
     public struct Rational : IConvertible
     {
         /// <summary>Gets the denominator.</summary>
@@ -54,7 +56,7 @@ namespace MetadataExtractor
             Denominator = denominator;
         }
 
-        #region Conversion methods
+#region Conversion methods
 
         /// <summary>Returns the value of the specified number as a <see cref="double"/>.</summary>
         /// <remarks>This may involve rounding.</remarks>
@@ -127,8 +129,7 @@ namespace MetadataExtractor
         /// <summary>Returns <c>true</c> if the value is non-zero, otherwise <c>false</c>.</summary>
         public bool ToBoolean() => Numerator != 0 && Denominator != 0;
 
-        #region IConvertible
-
+#region IConvertible
         TypeCode IConvertible.GetTypeCode() => TypeCode.Object;
 
         bool IConvertible.ToBoolean(IFormatProvider provider) => ToBoolean();
@@ -169,10 +170,9 @@ namespace MetadataExtractor
         {
             throw new NotSupportedException();
         }
+#endregion
 
-        #endregion
-
-        #endregion
+#endregion
 
         /// <summary>Gets the reciprocal value of this object as a new <see cref="Rational"/>.</summary>
         /// <value>the reciprocal in a new object</value>
@@ -184,7 +184,7 @@ namespace MetadataExtractor
         /// </summary>
         public bool IsInteger => Denominator == 1 || (Denominator != 0 && (Numerator%Denominator == 0)) || (Denominator == 0 && Numerator == 0);
 
-        #region Formatting
+#region Formatting
 
         /// <summary>Returns a string representation of the object of form <c>numerator/denominator</c>.</summary>
         /// <returns>a string representation of the object.</returns>
@@ -234,9 +234,9 @@ namespace MetadataExtractor
             return maxPossibleCalculations > maxSimplificationCalculations;
         }
 
-        #endregion
+#endregion
 
-        #region Equality and hashing
+#region Equality and hashing
 
         private bool Equals(Rational other) => Denominator == other.Denominator && Numerator == other.Numerator;
 
@@ -251,7 +251,7 @@ namespace MetadataExtractor
 
         public override int GetHashCode() => unchecked(Denominator.GetHashCode()*397) ^ Numerator.GetHashCode();
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Simplifies the <see cref="Rational"/> number.
@@ -304,7 +304,7 @@ namespace MetadataExtractor
             return this;
         }
 
-        #region Equality operators
+#region Equality operators
 
         public static bool operator==(Rational a, Rational b)
         {
@@ -316,11 +316,11 @@ namespace MetadataExtractor
             return !Equals(a, b);
         }
 
-        #endregion
+#endregion
 
 
-        #region RationalConverter
-
+#region RationalConverter
+#if !WINRT
         private sealed class RationalConverter : TypeConverter
         {
             public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
@@ -369,7 +369,7 @@ namespace MetadataExtractor
 
             public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) => false;
         }
-
-        #endregion
+#endif
+#endregion
     }
 }

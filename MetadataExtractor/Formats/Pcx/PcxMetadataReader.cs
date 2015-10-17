@@ -28,12 +28,32 @@ using JetBrains.Annotations;
 using MetadataExtractor.Formats.FileSystem;
 using MetadataExtractor.IO;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Pcx
 {
     /// <summary>Obtains metadata from PCX image files.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
     public static class PcxMetadataReader
     {
+#if WINRT
+        /// <exception cref="System.IO.IOException"/>
+        [NotNull]
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file)
+        {
+            var directories = new List<Directory>();
+
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                directories.Add(ReadMetadata(stream));
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file).ConfigureAwait(false));
+
+            return directories;
+        }
+#else
         /// <exception cref="System.IO.IOException"/>
         [NotNull]
         public static
@@ -53,6 +73,7 @@ namespace MetadataExtractor.Formats.Pcx
 
             return directories;
         }
+#endif
 
         [NotNull]
         public static PcxDirectory ReadMetadata([NotNull] Stream stream)

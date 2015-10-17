@@ -22,7 +22,9 @@
 //
 #endregion
 
+#if !WINRT
 using System;
+#endif
 using JetBrains.Annotations;
 
 namespace MetadataExtractor.Formats.Jpeg
@@ -32,7 +34,9 @@ namespace MetadataExtractor.Formats.Jpeg
     /// quantization table number.
     /// </summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
+#if !WINRT
     [Serializable]
+#endif
     public sealed class JpegComponent
     {
         private readonly int _samplingFactorByte;

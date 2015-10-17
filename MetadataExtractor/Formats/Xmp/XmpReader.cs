@@ -22,6 +22,8 @@
 //
 #endregion
 
+#if !WINRT
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -286,3 +288,5 @@ namespace MetadataExtractor.Formats.Xmp
         }
     }
 }
+
+#endif

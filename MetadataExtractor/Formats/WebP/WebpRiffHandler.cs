@@ -79,8 +79,12 @@ namespace MetadataExtractor.Formats.WebP
                 }
                 case "XMP ":
                 {
+#if WINRT
+                    throw new NotSupportedException("The xmp not supported.");
+#else
                     _directories.Add(new XmpReader().Extract(payload));
                     break;
+#endif
                 }
                 case "VP8X":
                 {
@@ -108,9 +112,15 @@ namespace MetadataExtractor.Formats.WebP
                         directory.Set(WebPDirectory.TagIsAnimation, isAnimation);
                         _directories.Add(directory);
                     }
+#if WINRT
+                    catch (IOException)
+                    {
+                        throw;
+#else
                     catch (IOException e)
                     {
                         Console.Error.WriteLine(e);
+#endif
                     }
                     break;
                 }

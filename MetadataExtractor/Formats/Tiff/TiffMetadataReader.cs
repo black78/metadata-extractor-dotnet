@@ -29,6 +29,11 @@ using MetadataExtractor.Formats.Exif;
 using MetadataExtractor.Formats.FileSystem;
 using MetadataExtractor.IO;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Tiff
 {
     /// <summary>Obtains all available metadata from TIFF formatted files.</summary>
@@ -40,6 +45,26 @@ namespace MetadataExtractor.Formats.Tiff
     /// <author>Drew Noakes https://drewnoakes.com</author>
     public static class TiffMetadataReader
     {
+#if WINRT
+        /// <exception cref="System.IO.IOException"/>
+        /// <exception cref="TiffProcessingException"/>
+        [NotNull]
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file)
+        {
+            var directories = new List<Directory>();
+
+            // using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.RandomAccess))
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+            {
+                var handler = new ExifTiffHandler(directories, storeThumbnailBytes: false);
+                TiffReader.ProcessTiff(new IndexedSeekingReader(stream), handler);
+            }
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file).ConfigureAwait(false));
+
+            return directories;
+        }
+#else
         /// <exception cref="System.IO.IOException"/>
         /// <exception cref="TiffProcessingException"/>
         [NotNull]
@@ -63,6 +88,7 @@ namespace MetadataExtractor.Formats.Tiff
 
             return directories;
         }
+#endif
 
         /// <exception cref="System.IO.IOException"/>
         /// <exception cref="TiffProcessingException"/>

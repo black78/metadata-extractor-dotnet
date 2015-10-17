@@ -38,6 +38,11 @@ using MetadataExtractor.Formats.Tiff;
 using MetadataExtractor.Formats.WebP;
 using MetadataExtractor.Util;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor
 {
     /// <summary>Reads metadata from any supported file format.</summary>
@@ -116,6 +121,26 @@ namespace MetadataExtractor
             throw new ImageProcessingException("File format is not supported");
         }
 
+#if WINRT
+        /// <summary>Reads metadata from a file.</summary>
+        /// <remarks>Unlike <see cref="ReadMetadata(System.IO.Stream)"/>, this overload includes a <see cref="FileMetadataDirectory"/> in the output.</remarks>
+        /// <param name="file">Location of a file from which data should be read.</param>
+        /// <returns>A list of <see cref="Directory"/> instances containing the various types of metadata found within the file's data.</returns>
+        /// <exception cref="ImageProcessingException">The file type is unknown, or processing errors occurred.</exception>
+        /// <exception cref="System.IO.IOException"/>
+        [NotNull]
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file)
+        {
+            var directories = new List<Directory>();
+
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                directories.AddRange(ReadMetadata(stream));
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file).ConfigureAwait(false));
+
+            return directories;
+        }
+#else
         /// <summary>Reads metadata from a file.</summary>
         /// <remarks>Unlike <see cref="ReadMetadata(System.IO.Stream)"/>, this overload includes a <see cref="FileMetadataDirectory"/> in the output.</remarks>
         /// <param name="filePath">Location of a file from which data should be read.</param>
@@ -140,5 +165,6 @@ namespace MetadataExtractor
 
             return directories;
         }
+#endif
     }
 }

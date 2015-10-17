@@ -52,8 +52,13 @@ namespace MetadataExtractor.Formats.Adobe
 #endif
             ReadJpegSegments(IEnumerable<byte[]> segments, JpegSegmentType segmentType)
         {
+#if WINRT
+            Encoding encodingASCII = Encoding.UTF8;
+#else
+            Encoding encodingASCII = Encoding.ASCII;
+#endif
             return segments
-                .Where(segment => segment.Length == 12 && Preamble.Equals(Encoding.ASCII.GetString(segment, 0, Preamble.Length), StringComparison.OrdinalIgnoreCase))
+                .Where(segment => segment.Length == 12 && Preamble.Equals(encodingASCII.GetString(segment, 0, Preamble.Length), StringComparison.OrdinalIgnoreCase))
                 .Select(bytes => Extract(new SequentialByteArrayReader(bytes)))
 #if NET35
                 .Cast<Directory>()

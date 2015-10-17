@@ -57,9 +57,14 @@ namespace MetadataExtractor.Formats.Jfif
 #endif
             ReadJpegSegments(IEnumerable<byte[]> segments, JpegSegmentType segmentType)
         {
+#if WINRT
+            Encoding encodingASCII = Encoding.UTF8;
+#else
+            Encoding encodingASCII = Encoding.ASCII;
+#endif
             // Skip segments not starting with the required header
             return segments
-                .Where(segment => segment.Length >= Preamble.Length && Preamble == Encoding.ASCII.GetString(segment, 0, Preamble.Length))
+                .Where(segment => segment.Length >= Preamble.Length && Preamble == encodingASCII.GetString(segment, 0, Preamble.Length))
                 .Select(segment => Extract(new ByteArrayReader(segment)))
 #if NET35
                 .Cast<Directory>()

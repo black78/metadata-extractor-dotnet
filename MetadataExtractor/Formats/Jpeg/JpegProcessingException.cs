@@ -23,14 +23,18 @@
 #endregion
 
 using System;
+#if !WINRT
 using System.Runtime.Serialization;
+#endif
 using JetBrains.Annotations;
 
 namespace MetadataExtractor.Formats.Jpeg
 {
     /// <summary>An exception class thrown upon unexpected and fatal conditions while processing a JPEG file.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
+#if !WINRT
     [Serializable]
+#endif
     public class JpegProcessingException : ImageProcessingException
     {
         public JpegProcessingException([CanBeNull] string message)
@@ -48,9 +52,11 @@ namespace MetadataExtractor.Formats.Jpeg
         {
         }
 
+#if !WINRT
         protected JpegProcessingException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }

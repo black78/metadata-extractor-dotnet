@@ -37,6 +37,11 @@ using MetadataExtractor.Formats.Photoshop;
 using MetadataExtractor.Formats.Xmp;
 using MetadataExtractor.IO;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Jpeg
 {
     /// <summary>Obtains all available metadata from JPEG formatted files.</summary>
@@ -50,7 +55,9 @@ namespace MetadataExtractor.Formats.Jpeg
             new JfifReader(),
             new JfxxReader(),
             new ExifReader(),
+#if !WINRT
             new XmpReader(),
+#endif
             new IccReader(),
             new PhotoshopReader(),
             new DuckyReader(),
@@ -72,6 +79,22 @@ namespace MetadataExtractor.Formats.Jpeg
             return Process(stream, readers);
         }
 
+#if WINRT
+        /// <exception cref="JpegProcessingException"/>
+        /// <exception cref="System.IO.IOException"/>
+        [NotNull]
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file, [CanBeNull] IEnumerable<IJpegSegmentMetadataReader> readers = null)
+        {
+            var directories = new List<Directory>();
+
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                directories.AddRange(ReadMetadata(stream, readers));
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file));
+
+            return directories;
+        }
+#else
         /// <exception cref="JpegProcessingException"/>
         /// <exception cref="System.IO.IOException"/>
         [NotNull]
@@ -92,6 +115,7 @@ namespace MetadataExtractor.Formats.Jpeg
 
             return directories;
         }
+#endif
 
         /// <exception cref="JpegProcessingException"/>
         /// <exception cref="System.IO.IOException"/>

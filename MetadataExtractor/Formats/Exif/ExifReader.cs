@@ -81,6 +81,10 @@ namespace MetadataExtractor.Formats.Exif
         {
             var directories = new List<Directory>();
 
+#if WINRT
+            // Read the TIFF-formatted Exif data
+            TiffReader.ProcessTiff(reader, new ExifTiffHandler(directories, StoreThumbnailBytes), readerOffset);
+#else
             try
             {
                 // Read the TIFF-formatted Exif data
@@ -96,6 +100,7 @@ namespace MetadataExtractor.Formats.Exif
                 // TODO what do to with this error state?
                 Console.Error.WriteLine(e);
             }
+#endif
 
             return directories;
         }

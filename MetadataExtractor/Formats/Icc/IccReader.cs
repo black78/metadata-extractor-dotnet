@@ -46,7 +46,11 @@ namespace MetadataExtractor.Formats.Icc
     /// <author>Drew Noakes https://drewnoakes.com</author>
     public sealed class IccReader : IJpegSegmentMetadataReader
     {
+#if WINRT
+        private static readonly byte[] _jpegSegmentPreambleBytes = Encoding.UTF8.GetBytes("ICC_PROFILE");
+#else
         private static readonly byte[] _jpegSegmentPreambleBytes = Encoding.ASCII.GetBytes("ICC_PROFILE");
+#endif
 
         // NOTE the header is 14 bytes, while "ICC_PROFILE" is 11
         private const int SegmentHeaderLength = 14;

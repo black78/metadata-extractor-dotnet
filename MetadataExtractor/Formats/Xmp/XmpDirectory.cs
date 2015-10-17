@@ -22,6 +22,8 @@
 //
 #endregion
 
+#if !WINRT
+
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -258,3 +260,5 @@ namespace MetadataExtractor.Formats.Xmp
         public IXmpMeta XmpMeta => _xmpMeta;
     }
 }
+
+#endif

@@ -22,6 +22,8 @@
 //
 #endregion
 
+#if !WINRT
+
 using System;
 using JetBrains.Annotations;
 using MetadataExtractor.Util;
@@ -153,3 +155,5 @@ namespace MetadataExtractor.Formats.Xmp
         }
     }
 }
+
+#endif

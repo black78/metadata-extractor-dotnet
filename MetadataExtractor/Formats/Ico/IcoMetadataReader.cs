@@ -28,12 +28,31 @@ using JetBrains.Annotations;
 using MetadataExtractor.Formats.FileSystem;
 using MetadataExtractor.IO;
 
+#if WINRT
+using System.Threading.Tasks;
+using Windows.Storage;
+#endif
+
 namespace MetadataExtractor.Formats.Ico
 {
     /// <summary>Obtains metadata from ICO (Windows Icon) files.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
     public static class IcoMetadataReader
     {
+#if WINRT
+        [NotNull]
+        public static async Task<IReadOnlyList<Directory>> ReadMetadataAsync([NotNull] StorageFile file)
+        {
+            var directories = new List<Directory>(2);
+
+            using (var stream = await file.OpenStreamForReadAsync().ConfigureAwait(false))
+                directories.AddRange(ReadMetadata(stream));
+
+            directories.Add(await new FileMetadataReader().ReadAsync(file));
+
+            return directories;
+        }
+#else
         /// <exception cref="System.IO.IOException"/>
         [NotNull]
         public static
@@ -53,7 +72,7 @@ namespace MetadataExtractor.Formats.Ico
 
             return directories;
         }
-
+#endif
         [NotNull]
         public static
 #if NET35

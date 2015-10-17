@@ -25,10 +25,30 @@
 using System.IO;
 using JetBrains.Annotations;
 
+#if WINRT
+using System;
+using Windows.Storage;
+using System.Threading.Tasks;
+#endif
+
 namespace MetadataExtractor.Formats.FileSystem
 {
     public sealed class FileMetadataReader
     {
+#if WINRT
+        public async Task<FileMetadataDirectory> ReadAsync([NotNull]StorageFile file)
+        {
+            var attr = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+
+            var directory = new FileMetadataDirectory();
+
+            directory.Set(FileMetadataDirectory.TagFileName, Path.GetFileName(file.Path));
+            directory.Set(FileMetadataDirectory.TagFileSize, attr.Size);
+            directory.Set(FileMetadataDirectory.TagFileModifiedDate, attr.DateModified);
+
+            return directory;
+        }
+#else
         /// <exception cref="System.IO.IOException"/>
         public FileMetadataDirectory Read([NotNull] string file)
         {
@@ -50,5 +70,6 @@ namespace MetadataExtractor.Formats.FileSystem
 
             return directory;
         }
+#endif
     }
 }

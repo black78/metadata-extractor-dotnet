@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\xunit.core.2.1.0\build\win81\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.1.0\build\win81\xunit.core.props')" />
+  <Import Project="..\packages\xunit.runner.visualstudio.2.1.0\build\win81\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.1.0\build\win81\xunit.runner.visualstudio.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B3D61020-49E4-4EB9-BD77-BE08565222A5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MetadataExtractor.netPortable.Tests.Windows</RootNamespace>
+    <AssemblyName>MetadataExtractor.netPortable.Tests.Windows</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>MetadataExtractor.netPortable.Tests.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxBundle>Never</AppxBundle>
+    <AllowCrossPlatformRetargeting>False</AllowCrossPlatformRetargeting>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AppXPackage>True</AppXPackage>
+    <AppxPackageIncludePrivateSymbols>true</AppxPackageIncludePrivateSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--A reference to the entire .Net Framework and Windows SDK are automatically included-->
+    <SDKReference Include="TestPlatform, Version=14.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgeTest.cs" />
+    <Compile Include="DirectoryExtensionsTest.cs" />
+    <Compile Include="DirectoryTest.cs" />
+    <Compile Include="Formats\Adobe\AdobeJpegReaderTest.cs" />
+    <Compile Include="Formats\Bmp\BmpReaderTest.cs" />
+    <Compile Include="Formats\Exif\CanonMakernoteDescriptorTest.cs" />
+    <Compile Include="Formats\Exif\ExifDirectoryTest.cs" />
+    <Compile Include="Formats\Exif\ExifIFD0DescriptorTest.cs" />
+    <Compile Include="Formats\Exif\ExifInteropDescriptorTest.cs" />
+    <Compile Include="Formats\Exif\ExifReaderTest.cs" />
+    <Compile Include="Formats\Exif\ExifSubIFDDescriptorTest.cs" />
+    <Compile Include="Formats\Exif\ExifThumbnailDescriptorTest.cs" />
+    <Compile Include="Formats\Exif\NikonType1MakernoteTest.cs" />
+    <Compile Include="Formats\Exif\NikonType2MakernoteTest1.cs" />
+    <Compile Include="Formats\Exif\NikonType2MakernoteTest2.cs" />
+    <Compile Include="Formats\Exif\PanasonicMakernoteDescriptorTest.cs" />
+    <Compile Include="Formats\Exif\SonyType1MakernoteTest.cs" />
+    <Compile Include="Formats\Exif\SonyType6MakernoteTest.cs" />
+    <Compile Include="Formats\Gif\GifReaderTest.cs" />
+    <Compile Include="GeoLocationTest.cs" />
+    <Compile Include="IO\ByteArrayReaderTest.cs" />
+    <Compile Include="IO\IndexedReaderTestBase.cs" />
+    <Compile Include="IO\IndexedSeekingReaderTest.cs" />
+    <Compile Include="IO\RandomAccessStreamReaderTest.cs" />
+    <Compile Include="IO\SequentialAccessTestBase.cs" />
+    <Compile Include="IO\SequentialByteArrayReaderTest.cs" />
+    <Compile Include="IO\SequentialStreamReaderTest.cs" />
+    <Compile Include="MockDirectory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RationalTest.cs" />
+    <Compile Include="TestHelper.cs" />
+    <Compile Include="UseCultureAttribute.cs" />
+    <Compile Include="Util\ByteConvertTest.cs" />
+    <Compile Include="Util\ByteTrieTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <Content Include="Data\10x12x16bit-CMYK.psd" />
+    <Content Include="Data\8x4x8bit-Grayscale.psd" />
+    <Content Include="Data\adobeJpeg1.jpg.app0" />
+    <Content Include="Data\adobeJpeg1.jpg.app1.0" />
+    <Content Include="Data\adobeJpeg1.jpg.app1.1" />
+    <Content Include="Data\adobeJpeg1.jpg.app2" />
+    <Content Include="Data\adobeJpeg1.jpg.appd" />
+    <Content Include="Data\adobeJpeg1.jpg.appe" />
+    <Content Include="Data\crash01.jpg.app1" />
+    <Content Include="Data\iccDataInvalid1.jpg.app2" />
+    <Content Include="Data\iptc-encoding-defined-utf8.bytes" />
+    <Content Include="Data\iptc-encoding-undefined-iso.bytes" />
+    <Content Include="Data\iptc-encoding-unknown-2.bytes" />
+    <Content Include="Data\iptc-encoding-unknown.bytes" />
+    <Content Include="Data\iptc1.jpg.appd" />
+    <Content Include="Data\iptc2-photoshop6.jpg.appd" />
+    <Content Include="Data\manuallyAddedThumbnail.jpg.app1" />
+    <Content Include="Data\manuallyAddedThumbnail.jpg.com" />
+    <Content Include="Data\nikonMakernoteType1.jpg.app0" />
+    <Content Include="Data\nikonMakernoteType1.jpg.app1" />
+    <Content Include="Data\nikonMakernoteType1.jpg.appd" />
+    <Content Include="Data\nikonMakernoteType1.jpg.appe" />
+    <Content Include="Data\nikonMakernoteType2a.jpg.app1" />
+    <Content Include="Data\nikonMakernoteType2b.jpg.app1" />
+    <Content Include="Data\nikonMakernoteType2b.jpg.appd" />
+    <Content Include="Data\noExif.jpg.app0" />
+    <Content Include="Data\noExif.jpg.com" />
+    <Content Include="Data\recursiveDirectories.jpg.app1" />
+    <Content Include="Data\repeatedOrientationTagWithDifferentValues.jpg.app1" />
+    <Content Include="Data\simple.jpg.app1" />
+    <Content Include="Data\simple.jpg.com" />
+    <Content Include="Data\simple.jpg.sof0" />
+    <Content Include="Data\sonyType1.jpg.app1" />
+    <Content Include="Data\sonyType6.jpg.app1.0" />
+    <Content Include="Data\sonyType6.jpg.app1.1" />
+    <Content Include="Data\sonyType6.jpg.app4.0" />
+    <Content Include="Data\sonyType6.jpg.app4.1" />
+    <Content Include="Data\windowsXpFields.jpg.app0" />
+    <Content Include="Data\windowsXpFields.jpg.app1" />
+    <Content Include="Data\windowsXpFields.jpg.app2" />
+    <Content Include="Data\windowsXpFields.jpg.appd" />
+    <Content Include="Data\windowsXpFields.jpg.appe" />
+    <Content Include="Data\withExif.jpg.app1" />
+    <Content Include="Data\withExif.jpg.appd" />
+    <Content Include="Data\withExifAndIptc.jpg.app0" />
+    <Content Include="Data\withExifAndIptc.jpg.app1.0" />
+    <Content Include="Data\withExifAndIptc.jpg.app1.1" />
+    <Content Include="Data\withExifAndIptc.jpg.app2" />
+    <Content Include="Data\withExifAndIptc.jpg.appd" />
+    <Content Include="Data\withExifAndIptc.jpg.appe" />
+    <Content Include="Data\withPanasonicFaces.jpg.app1" />
+    <Content Include="Data\withUncompressedRGBThumbnail.jpg.app1" />
+    <Content Include="Data\withUncompressedRGBThumbnail.jpg.com" />
+    <Content Include="Data\withXmpAndIptc.jpg.app1.0" />
+    <Content Include="Data\withXmpAndIptc.jpg.app1.1" />
+    <Content Include="Data\withXmpAndIptc.jpg.app2" />
+    <Content Include="Data\withXmpAndIptc.jpg.appd" />
+    <None Include="MetadataExtractor.netPortable.Tests.Windows_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\16color-10x10.bmp" />
+    <Content Include="Data\24bpp-10x10.bmp" />
+    <Content Include="Data\256color-10x10.bmp" />
+    <Content Include="Data\adobeJpeg1.jpg" />
+    <Content Include="Data\crash01.jpg" />
+    <Content Include="Data\dotnet-256x256-alpha-palette.png" />
+    <Content Include="Data\gimp-8x12-greyscale-alpha-time-background.png" />
+    <Content Include="Data\invalid-iCCP-missing-adler32-checksum.png" />
+    <Content Include="Data\manuallyAddedThumbnail.jpg" />
+    <Content Include="Data\mspaint-10x10.gif" />
+    <Content Include="Data\mspaint-8x10.png" />
+    <Content Include="Data\nikonMakernoteType1.jpg" />
+    <Content Include="Data\nikonMakernoteType2b.jpg" />
+    <Content Include="Data\noExif.jpg" />
+    <Content Include="Data\photoshop-8x12-16colorpalette.png" />
+    <Content Include="Data\photoshop-8x12-32colors-alpha.gif" />
+    <Content Include="Data\photoshop-8x12-rgb24-all-metadata.png" />
+    <Content Include="Data\photoshop-8x12-rgb24-interlaced.png" />
+    <Content Include="Data\photoshop-8x12-rgb24.png" />
+    <Content Include="Data\photoshop-8x12-rgba32-interlaced.png" />
+    <Content Include="Data\photoshop-8x12-rgba32.png" />
+    <Content Include="Data\simple.jpg" />
+    <Content Include="Data\windowsXpFields.jpg" />
+    <Content Include="Data\withExif.jpg" />
+    <Content Include="Data\withExifAndIptc.jpg" />
+    <Content Include="Data\withIptc.jpg" />
+    <Content Include="Data\withIptcExifGps.jpg" />
+    <Content Include="Data\withIptcPhotoshop6.jpg" />
+    <Content Include="Data\withPanasonicFaces.jpg" />
+    <Content Include="Data\withUncompressedRGBThumbnail.jpg" />
+    <Content Include="Data\withUncompressedYCbCrThumbnail.jpg" />
+    <Content Include="Data\withUncompressedYCbCrThumbnail2.jpg" />
+    <Content Include="Data\withUncompressedYCbCrThumbnail3.jpg" />
+    <Content Include="Data\withUncompressedYCbCrThumbnail4.jpg" />
+    <Content Include="Images\UnitTestLogo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UnitTestSmallLogo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UnitTestSplashScreen.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UnitTestStoreLogo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MetadataExtractor\MetadataExtractor.netPortable.csproj">
+      <Project>{3374713f-e184-405b-93d9-bba2f1dae3b7}</Project>
+      <Name>MetadataExtractor.netPortable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations.PCL1, Version=9.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.9.1.1\lib\portable-net4+sl4+wp7+netcore45\JetBrains.Annotations.PCL1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.execution.dotnet, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.execution.2.1.0\lib\win8\xunit.execution.dotnet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.1.0\build\win81\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.1.0\build\win81\xunit.runner.visualstudio.props'))" />
+    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.1.0\build\win81\xunit.runner.visualstudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.1.0\build\win81\xunit.runner.visualstudio.targets'))" />
+    <Error Condition="!Exists('..\packages\xunit.core.2.1.0\build\win81\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.1.0\build\win81\xunit.core.props'))" />
+  </Target>
+  <Import Project="..\packages\xunit.runner.visualstudio.2.1.0\build\win81\xunit.runner.visualstudio.targets" Condition="Exists('..\packages\xunit.runner.visualstudio.2.1.0\build\win81\xunit.runner.visualstudio.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>  
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

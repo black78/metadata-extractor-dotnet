@@ -23,7 +23,9 @@
 #endregion
 
 using System;
+#if !WINRT
 using System.Runtime.Serialization;
+#endif
 using JetBrains.Annotations;
 
 namespace MetadataExtractor.Formats.Tiff
@@ -31,7 +33,9 @@ namespace MetadataExtractor.Formats.Tiff
     /// <summary>An exception class thrown upon unexpected and fatal conditions while processing a TIFF file.</summary>
     /// <author>Drew Noakes https://drewnoakes.com</author>
     /// <author>Darren Salomons</author>
+#if !WINRT
     [Serializable]
+#endif
     public class TiffProcessingException : ImageProcessingException
     {
         public TiffProcessingException([CanBeNull] string message)
@@ -49,9 +53,11 @@ namespace MetadataExtractor.Formats.Tiff
         {
         }
 
+#if !WINRT
         protected TiffProcessingException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }

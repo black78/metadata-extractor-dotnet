@@ -261,7 +261,12 @@ namespace MetadataExtractor
 
             try
             {
-                return Encoding.ASCII.GetString(values).Trim('\0', ' ', '\r', '\n', '\t');
+#if WINRT
+            Encoding encodingASCII = Encoding.UTF8;
+#else
+            Encoding encodingASCII = Encoding.ASCII;
+#endif
+                return encodingASCII.GetString(values).Trim('\0', ' ', '\r', '\n', '\t');
             }
             catch
             {
